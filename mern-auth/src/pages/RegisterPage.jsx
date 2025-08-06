@@ -251,8 +251,9 @@ const RegisterPage = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors otp-form-element"
-            >
+                className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors otp-form-element"
+                  style={{ opacity: 1, visibility: 'visible', display: 'block' }}
+              >
               Verify OTP
             </button>
           </form>

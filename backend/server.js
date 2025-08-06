@@ -2,34 +2,45 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import authRoutes from './routes/authRoutes.js'; // Importing the auth routes
+// import your routes here if needed, for example:
+// import authRoutes from './routes/authRoutes.js';
 
-dotenv.config(); // Make sure this is BEFORE using env variables
-const allowedOrigins = ['http://localhost:5173', 'https://authentication-app-two-psi.vercel.app'];
+// Load environment variables from the .env file
+dotenv.config();
+
 const app = express();
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true,
-}));
-app.use(express.json());
+
+// Use middleware
+app.use(express.json()); // To parse JSON bodies
+app.use(cors()); // To handle Cross-Origin Resource Sharing
+
+// Define the port from the .env file, with a fallback
+const PORT = process.env.PORT || 3000;
 
 // Basic route to check if the server is running
 app.get('/', (req, res) => {
-  res.send('MERN Auth API Running');
+  res.send('MERN server is running!');
 });
-app.use('/', authRoutes); // Using the auth routes
+
+// Use your imported routes here, for example:
+// app.use('/api/auth', authRoutes);
 
 
-const PORT = process.env.PORT || 3000;
+// Connect to MongoDB and start the server
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+    
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    });
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => {
-  console.log('✅ MongoDB Connected');
-  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-})
-.catch(err => {
-  console.error('❌ MongoDB connection error:', err);
-});
+  } catch (error) {
+    console.error(`❌ MongoDB connection error: ${error.message}`);
+    // Exit process with failure
+    process.exit(1);
+  }
+};
+
+connectDB();
