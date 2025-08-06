@@ -1,7 +1,7 @@
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { Otp } from '../models/otp.js';
+import { Otp } from '../models/Otp.js';
 import { sendOTPEmail } from '../utils/sendEmail.js';
 import crypto from 'crypto';
 import EmailToken from '../models/emailToken.js';
