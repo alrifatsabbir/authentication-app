@@ -11,7 +11,7 @@
 
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://auth-app-0iwu.onrender.com';
 
 const register = (name, username, email, password) => {
     return axios.post(API_URL + '/register', {

@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js'; // Importing the auth routes
 
 dotenv.config(); // Make sure this is BEFORE using env variables
-const allowedOrigins = ['http://localhost:5173'];
+const allowedOrigins = ['http://localhost:5173','https://authentication-app-two-psi.vercel.app/'];
 const app = express();
 app.use(cors({
   origin: allowedOrigins,
