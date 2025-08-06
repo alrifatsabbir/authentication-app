@@ -2,43 +2,35 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-// import your routes here if needed, for example:
-// import authRoutes from './routes/authRoutes.js';
+import authRoutes from './routes/authRoutes.js'; // This line was commented out or missing
 
-// Load environment variables from the .env file
 dotenv.config();
 
 const app = express();
 
-// Use middleware
-app.use(express.json()); // To parse JSON bodies
-app.use(cors()); // To handle Cross-Origin Resource Sharing
+const allowedOrigins = ['https://authentication-app-two-psi.vercel.app'];
 
-// Define the port from the .env file, with a fallback
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+app.use(express.json());
+
+// This is the line that was missing. It connects your auth routes to your server.
+app.use('/', authRoutes);
+
 const PORT = process.env.PORT || 3000;
 
-// Basic route to check if the server is running
-app.get('/', (req, res) => {
-  res.send('MERN server is running!');
-});
-
-// Use your imported routes here, for example:
-// app.use('/api/auth', authRoutes);
-
-
-// Connect to MongoDB and start the server
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log(`✅ MongoDB Connected`);
     
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT}`);
+      console.log(`🚀 Server running on port ${PORT}`);
     });
-
   } catch (error) {
     console.error(`❌ MongoDB connection error: ${error.message}`);
-    // Exit process with failure
     process.exit(1);
   }
 };
