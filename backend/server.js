@@ -8,7 +8,7 @@ dotenv.config();
 
 const app = express();
 
-const allowedOrigins = ['https://authentication-app-two-psi.vercel.app'];
+const allowedOrigins = ['https://authapp-rifatthedev.vercel.app'];
 
 app.use(cors({
   origin: allowedOrigins,
